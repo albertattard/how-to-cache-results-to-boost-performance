@@ -189,7 +189,7 @@ This class is less than 55 lines of code and meets all our requirements as expla
 
     The `Future` represents the code that will compute and return the value.  There will be only one future for any given key (as we will see later on).  When thread 1 adds the `Future` instance to the cache, thread 2 will obtain the same `Future` instance and will both wait for this to finish.
 
-    ![Using Future](img/Using-Future..png)
+    ![Using Future](img/Using-Future.png)
 
      This solves the second problem but we still need to make sure that only one instance of `Future` is added to the `cache` field.
 
