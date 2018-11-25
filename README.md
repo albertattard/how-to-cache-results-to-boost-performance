@@ -1,12 +1,12 @@
 Albert Einstein ([Wiki](http://en.wikipedia.org/wiki/Albert_Einstein)) defines _insanity_ as follows:
 
-> Insanity: doing the same thing over and over again and expecting different results ((reference)[http://www.brainyquote.com/quotes/quotes/a/alberteins133991.html])
+> Insanity: doing the same thing over and over again and expecting different results ([reference](http://www.brainyquote.com/quotes/quotes/a/alberteins133991.html))
 
 In programming we can avoid _insanity_ by using caching.  Caching, together with avoiding insanity, can boost performance as we do not have to compute complex algorithms again and again.  Instead we simply use the previously computed values.  Caching saves time by using more memory.  Instead of computing something again, the result obtained before is saved in memory and retrieved from memory next time required.  Large cache deposits will require more space, and since memory is a finite resource we cannot cache everything.  We should choose what we cache with care.
 
-In this article we will see how to implement a good, thread-safe caching algorithm that can help boosting the performance.  If you are interested in Spring caching, please refer to another article called: _Caching Made Easy with Spring_ ((Article)[http://www.javacreed.com/caching-made-easy-with-spring/]).
+In this article we will see how to implement a good, thread-safe caching algorithm that can help boosting the performance.  If you are interested in Spring caching, please refer to another article called: _Caching Made Easy with Spring_ ([Article](http://www.javacreed.com/caching-made-easy-with-spring/)).
 
-All code listed below is available at: (https://github.com/javacreed/how-to-cache-results-to-boost-performance)[https://github.com/javacreed/how-to-cache-results-to-boost-performance].  Most of the examples will not contain the whole code and may omit fragments which are not relevant to the example being discussed. The readers can download or view all code from the above link.
+All code listed below is available at: [https://github.com/javacreed/how-to-cache-results-to-boost-performance](https://github.com/javacreed/how-to-cache-results-to-boost-performance).  Most of the examples will not contain the whole code and may omit fragments which are not relevant to the example being discussed. The readers can download or view all code from the above link.
 
 ## Naive Implementation
 
@@ -22,7 +22,7 @@ ELSE
 END IF  
 ```
 
-The above algorithm is the simplest form of caching algorithm.  Let us apply the above algorithm to a simple example.  For this example we will use the Fibonacci number sequence ((Wiki)[http://en.wikipedia.org/wiki/Fibonacci_number]).  The Fibonacci number sequence is a good candidate for caching as the _n_<sup>th</sup> number is equal to the sum of the previous two numbers in the sequence.  Therefore, if you need the _n_<sup>th</sup> Fibonacci number in the sequence, you have to first compute the (_n_<sup>th</sup> - 1) and (_n_<sup>th</sup> - 2) Fibonacci numbers, and so on and so forth until you reach the base case.
+The above algorithm is the simplest form of caching algorithm.  Let us apply the above algorithm to a simple example.  For this example we will use the Fibonacci number sequence ([Wiki](http://en.wikipedia.org/wiki/Fibonacci_number)).  The Fibonacci number sequence is a good candidate for caching as the _n_<sup>th</sup> number is equal to the sum of the previous two numbers in the sequence.  Therefore, if you need the _n_<sup>th</sup> Fibonacci number in the sequence, you have to first compute the (_n_<sup>th</sup> - 1) and (_n_<sup>th</sup> - 2) Fibonacci numbers, and so on and so forth until you reach the base case.
 
 ```java
 package com.javacreed.examples.cache.part1;
@@ -54,11 +54,11 @@ public class NaiveCacheExample {
 }
 ```
 
-The example shown above, caches the values in a `Map` ((Java Doc)[http://docs.oracle.com/javase/7/docs/api/java/util/Map.html]), where the sequence number acts as the map index (or key).  Furthermore, it also caches the base case values rather than adds checks in the `getNumber()` method.  This approach works well for this problem but has the following shortcomings:
+The example shown above, caches the values in a `Map` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/Map.html)), where the sequence number acts as the map index (or key).  Furthermore, it also caches the base case values rather than adds checks in the `getNumber()` method.  This approach works well for this problem but has the following shortcomings:
 
 1. **This approach is not thread-safe**
 
-    This problem can be mitigated by using a concurrent version of the `Map`, such as `ConcurrentMap` ((Java Doc)[http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html]).  Alternatively, you can guard the access to the map by using locks ((Article)[http://www.javacreed.com/understanding-threads-monitors-and-locks/]) but the other approach is preferred as it scales better.
+    This problem can be mitigated by using a concurrent version of the `Map`, such as `ConcurrentMap` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html)).  Alternatively, you can guard the access to the map by using locks ([Article](http://www.javacreed.com/understanding-threads-monitors-and-locks/)) but the other approach is preferred as it scales better.
 
 1. **The same value can be computed more than once**
 
@@ -106,14 +106,14 @@ The example shown above, caches the values in a `Map` ((Java Doc)[http://docs.or
     }
     ```
 
-    Say we need to use the cache for something else, such as determining whether a large number is a prime number ((Wiki)[http://en.wikipedia.org/wiki/Prime_number]) or not, we need to write both the caching function and the algorithm that computes it.  Therefore, we need to rewrite the caching code in every class/problem we have and need to use caching.
+    Say we need to use the cache for something else, such as determining whether a large number is a prime number ([Wiki](http://en.wikipedia.org/wiki/Prime_number)) or not, we need to write both the caching function and the algorithm that computes it.  Therefore, we need to rewrite the caching code in every class/problem we have and need to use caching.
 
 
-A better version of the caching algorithm can be written using `Callable` ((Java Doc)[http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html]) and `Future` ((Java Doc)[http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html]).  As already mentioned, the cached values will be stored within an instance of `ConcurrentMap`.  These three classes can mitigate the shortcomings listed above.
+A better version of the caching algorithm can be written using `Callable` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html)) and `Future` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html)).  As already mentioned, the cached values will be stored within an instance of `ConcurrentMap`.  These three classes can mitigate the shortcomings listed above.
 
-1. The `ConcurrentMap`'s `putIfAbsent()` ((Java Doc)[http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html#putIfAbsent(K, V)]) method will only add a value to the map if one does not exists in a thread-safe manner.  This map can be accessed by multiple threads in a safe way.
+1. The `ConcurrentMap`'s `putIfAbsent()` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html#putIfAbsent(K, V))) method will only add a value to the map if one does not exists in a thread-safe manner.  This map can be accessed by multiple threads in a safe way.
 
-1. The `Future`'s `get()` ((Java Doc)[http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html#get()]) method is guaranteed to be executed only once even if the second thread requests the value while the first thread is computing it.
+1. The `Future`'s `get()` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html#get())) method is guaranteed to be executed only once even if the second thread requests the value while the first thread is computing it.
 
 1. Finally, the algorithm is moved into an instance of `Callable`.  Thus we can use this approach to cache anything we need.  All we need to do is to wrap the algorithm within an instance of `Callable`.  Using this approach we can use the same caching algorithm by different problems.
 
@@ -121,7 +121,7 @@ Let's start building all this.
 
 ## Thread-safe Generic Cache Algorithm
 
-Three changes are required to convert our naive implementation to a thread-safe, generic cache algorithm.  The caching class needs to be thread-safe and needs to smart enough to prevent the computation of the same value twice even is the first thread has not yet finished yet.  The second thread should still use the value being calculated by the first thread.  We also need to move the Fibonacci related code outside from the caching class.  Since our new approach has to be generic, we will use Generics ((Tutorial)[http://docs.oracle.com/javase/tutorial/java/generics/]) to support type checking even when used for different scenarios.
+Three changes are required to convert our naive implementation to a thread-safe, generic cache algorithm.  The caching class needs to be thread-safe and needs to smart enough to prevent the computation of the same value twice even is the first thread has not yet finished yet.  The second thread should still use the value being calculated by the first thread.  We also need to move the Fibonacci related code outside from the caching class.  Since our new approach has to be generic, we will use Generics ([Tutorial](http://docs.oracle.com/javase/tutorial/java/generics/)) to support type checking even when used for different scenarios.
 
 Following is the new caching algorithm.
 
@@ -244,7 +244,7 @@ This class is less than 55 lines of code and meets all our requirements as expla
 
         In this case we have to start the task as otherwise it would never kick off and we will stuck waiting for it forever.  
 
-    It is imperative to only execute the `FutureTask` ((Java Doc)[http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html]) `run()` ((Java Doc)[http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html#run()]) method once as otherwise we will have the same value computed several times.  This is the key part in preventing the same value being computed several times.
+    It is imperative to only execute the `FutureTask` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html)) `run()` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html#run())) method once as otherwise we will have the same value computed several times.  This is the key part in preventing the same value being computed several times.
 
 1. Finally we need to retrieve the value and return it to the caller.  This is achieved through the `Future`'s `get()` method.
 
@@ -277,7 +277,7 @@ This class is less than 55 lines of code and meets all our requirements as expla
 
     Note that while this method takes a value, it must wrap it in a `Callable` and then add it to the `cache` through an instance of `Future`.
 
-With the algorithm explained, let's now put this into action.  In the following section we will see some examples of how to use the new generic, thread-safe, cache algorithm.
+With the algorithm explained, let''s now put this into action.  In the following section we will see some examples of how to use the new generic, thread-safe, cache algorithm.
 
 
 ## Using the new cache algorithm
@@ -396,7 +396,7 @@ public class FictitiousLongRunningTask {
 }
 ```
 
-In this example we made use of the `StopWatch` ((Java Doc)[https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/util/StopWatch.html]) utility class to measure the time it takes to retrieve the items from cache once the first item is computed.
+In this example we made use of the `StopWatch` ([Java Doc](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/util/StopWatch.html)) utility class to measure the time it takes to retrieve the items from cache once the first item is computed.
 
 No changes were required to the caching algorithm and implementing is was quite easy.  The above code will produce something similar to the following.
 
@@ -409,4 +409,4 @@ As shown on the output above, once the first value is computed and saved in cach
 
 ## Conclusion
 
-Caching is very handy as it can boost the performance of an application.  But when done incorrectly can cripple an application as described in this article.  Spring provides caching as described in the article titled: _Caching Made Easy with Spring_ ((Article)[http://www.javacreed.com/caching-made-easy-with-spring/]).  This simplifies caching further as you do not have to worry about the caching algorithm.  With that said, such approach has its limitations as it does not work well with recursion algorithms.
+Caching is very handy as it can boost the performance of an application.  But when done incorrectly can cripple an application as described in this article.  Spring provides caching as described in the article titled: _Caching Made Easy with Spring_ ([Article](http://www.javacreed.com/caching-made-easy-with-spring/)).  This simplifies caching further as you do not have to worry about the caching algorithm.  With that said, such approach has its limitations as it does not work well with recursion algorithms.
