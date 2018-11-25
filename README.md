@@ -212,13 +212,13 @@ This class is less than 55 lines of code and meets all our requirements as expla
 
     This code may not be as straightforward as one would hope, so we will break this further.
 
-    1.1. First we try to obtain the `Future` from the `cache`.
+    1. First we try to obtain the `Future` from the `cache`.
 
         ```java
             Future<V> future = cache.get(key);
         ```
 
-    1.1. If this is `null`, then we need to create a new instance of `Future` and add it to the cache.
+    1. If this is `null`, then we need to create a new instance of `Future` and add it to the cache.
 
         ```java
               final FutureTask<V> futureTask = new FutureTask<V>(callable);
@@ -227,7 +227,7 @@ This class is less than 55 lines of code and meets all our requirements as expla
 
         Here we are using the `putIfAbsent()` method of the `ConcurrentMap` which guarantees to add the given object if and only if no other entry exists for the given key.
 
-    1.1. The `putIfAbsent()` method will return the previous value attached with the given key.  If this is `null` it means that no value was attached with this key and that our `Future` instance was added to the map.
+    1. The `putIfAbsent()` method will return the previous value attached with the given key.  If this is `null` it means that no value was attached with this key and that our `Future` instance was added to the map.
 
         ```java
               if (future == null) {
