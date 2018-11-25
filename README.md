@@ -1,4 +1,4 @@
-Albert Einstein ((Wiki)[http://en.wikipedia.org/wiki/Albert_Einstein]) defines _insanity_ as follows:
+Albert Einstein ([Wiki](http://en.wikipedia.org/wiki/Albert_Einstein)) defines _insanity_ as follows:
 
 > Insanity: doing the same thing over and over again and expecting different results ((reference)[http://www.brainyquote.com/quotes/quotes/a/alberteins133991.html])
 
