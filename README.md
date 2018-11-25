@@ -156,13 +156,7 @@ public class GenericCacheExample<K, V> {
     try {
       final Future<V> future = createFutureIfAbsent(key, callable);
       return future.get();
-    } catch (final InterruptedException e) {
-      cache.remove(key);
-      throw e;
-    } catch (final ExecutionException e) {
-      cache.remove(key);
-      throw e;
-    } catch (final RuntimeException e) {
+    } catch (InterruptedException | ExecutionException | RuntimeException e) {
       cache.remove(key);
       throw e;
     }
