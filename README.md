@@ -111,7 +111,7 @@ The example shown above, caches the values in a `Map` ([Java Doc](http://docs.or
 
 A better version of the caching algorithm can be written using `Callable` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html)) and `Future` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html)).  As already mentioned, the cached values will be stored within an instance of `ConcurrentMap`.  These three classes can mitigate the shortcomings listed above.
 
-1. The `ConcurrentMap`'s `putIfAbsent()` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html#putIfAbsent(K, V))) method will only add a value to the map if one does not exists in a thread-safe manner.  This map can be accessed by multiple threads in a safe way.
+1. The `ConcurrentMap`'s `putIfAbsent()` ( [Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html#putIfAbsent(K, V)) ) method will only add a value to the map if one does not exists in a thread-safe manner.  This map can be accessed by multiple threads in a safe way.
 
 1. The `Future`'s `get()` ([Java Doc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html#get())) method is guaranteed to be executed only once even if the second thread requests the value while the first thread is computing it.
 
