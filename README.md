@@ -212,13 +212,13 @@ This class is less than 55 lines of code and meets all our requirements as expla
 
     This code may not be as straightforward as one would hope, so we will break this further.
 
-    a. First we try to obtain the `Future` from the `cache`.
+    1.a. First we try to obtain the `Future` from the `cache`.
 
         ```java
             Future<V> future = cache.get(key);
         ```
 
-    a. If this is `null`, then we need to create a new instance of `Future` and add it to the cache.
+    1.a. If this is `null`, then we need to create a new instance of `Future` and add it to the cache.
 
         ```java
               final FutureTask<V> futureTask = new FutureTask<V>(callable);
